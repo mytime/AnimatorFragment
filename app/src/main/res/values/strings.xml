@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AnimatorFragment</string>
+    <string name="show_another_fragment">ShowAnotherFragment</string>
+</resources>
