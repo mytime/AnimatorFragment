@@ -20,7 +20,7 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //解析布局 fragment_main
-        root = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_main, null);
+        root = inflater.inflate(R.layout.fragment_main, container, false);
 
         //查找按钮 设置监听
         root.findViewById(R.id.btnShowAnotherFragment).setOnClickListener(this);
@@ -30,17 +30,20 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        /**
-         * R.animator.enter 进入效果 ,R.animator.exit 退出效果
-         * addToBackStack("AnotherFragment") 添加到后退栈，支持后退
-         *
-         */
-        getFragmentManager().beginTransaction()
-                //arg:进入，退出，进入，退出
-                .setCustomAnimations(R.animator.enter,R.animator.exit,R.animator.enter,R.animator.exit)
-                .addToBackStack("AnotherFragment")
-                .replace(R.id.fragment,new AnotherFragment())
-                .commit();
-
+        switch (v.getId()){
+            case R.id.btnShowAnotherFragment:
+                getFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .setCustomAnimations(
+                                R.animator.flip_enter,//第二个fragment进入要执行动画
+                                R.animator.flip_exit, //第一个fragmenttui退出动画
+                                R.animator.flip_pop_enter,//第一个fragment进入动画
+                                R.animator.flip_pop_exit //第二个fragment退出动画
+                        )
+                        .replace(R.id.fragment,new AnotherFragment())
+                        .commit();
+                break;
+        }
     }
 }
